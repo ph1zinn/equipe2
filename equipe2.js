@@ -70,3 +70,55 @@ rl.question('Digite o nome do produto: ', (nome) => {
         });
     });
 }
+
+function removerProdutos() {
+    if (produtos.length === 0) {
+
+        console.log('Nenhum produto registrado')
+        console.log('\nPressione enter para retornar ao menu')
+        return rl.question('', mostrarMenu)
+}
+
+console.log('\n===PRODUTOS===')
+produtos.forEach((produto, index) => {
+    console.log('${index + 1}. Produto: ${produto} | Quantidade: ${quantidade} | Preço: ${preco} | id: ${id}')
+})
+
+rl.question('\nDigite o número do produto que deseja apagar: ', (num) => {
+    const index = parseInt(num, 10) - 1; 
+
+    if (index >= 0 && index < produtos.length) {
+      const [removido] = produtos.splice(index, 1);
+      console.log(`Produto ${removido.produto} foi removido com sucesso!`);
+    } else {
+      console.log('Produto inválido!');
+    }
+
+    console.log('\nPressione Enter para voltar ao menu...');
+    rl.question('', mostrarMenu);
+  });
+}
+
+function verificarFalta() {
+    console.log('Produtos com quantidade baixa: ')
+
+    let produtosFalta = []
+
+    for (let i = 0; i < produtos.length; i++){
+        if (produto.quantidade <= 5) {
+            produtosFalta.push(produto)
+        }
+    }
+    if (produtosFalta.length === 0) {
+        console.log('Nenhum produto está com estoque baixo!')
+        console.log('\nPressione enter para retornar ao menu')
+        return rl.question('', mostrarMenu)
+    } else {
+        console.log('\n===BAIXO ESTOQUE===')
+        produtosFalta.forEach((produto, index) => {
+            console.log('${index + 1}. Produto: ${produto} | Quantidade: ${quantidade} | Preço: ${preco} | id: ${id}')
+            console.log('\nPressione enter para retornar ao menu')
+            return rl.question('', mostrarMenu)
+})
+    }
+}
