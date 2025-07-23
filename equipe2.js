@@ -172,5 +172,65 @@ function verificarFalta() {
     }
 }
 
-
-menu();
+function ListarProdutosEmEstoque () {
+    if (estoque.length === 0) {
+        console.log('Nenhum produto em estoque.')
+    } else {
+        console.log('\n=== LISTA DE PRODUTOS EM ESTOQUE ===');
+        estoque.forEach((estoque, index) => {
+            console.log(
+                `${index + 1}. Nome: ${produto.nome} || Categoria: ${produto.categoria} || Quantidade: ${produto.quantidade} || Valor: R$ ${produto.valor.toFixed(2)}`
+            );        
+        });
+    }
+    
+    console.log('\nPressione Enter para voltar ao menu principal');
+    rl.question('',menu);
+    }
+    
+    function AtualizarAQuantidadeDoProduto() {
+        if (estoque.length === 0) {
+            console.log('Nenhum produto cadastrado no estoque para editar.');
+            console.log('\nPressione Enter para voltar ao menu principal');
+            return rl.question('',menu);
+        }
+    console.log('\n=== PRODUTOS CADASTRADOS ===');
+    estoque.forEach((estoque, index) => {
+        console.log(
+            `${index + 1}. Nome: ${produto.nome} || Categoria: ${produto.categoria} || Quantidade: ${produto.quantidade} || Valor: R$ ${produto.valor.toFixed(2)}`
+        );
+    });
+    
+    rl.question('\nDigite o número do produto a ser editado: ', (num) => {
+        const index = parseInt(num, 10) - 1;
+    
+        if (index < 0 || index >= estoque.length) {
+            console.log('Número/produto inexistente!');
+            console.log('\n Pressione Enter para voltar ao menu principal');
+            return rl.question('',menu);
+        }
+    
+        rl.question('Digite o novo nome do produto:', (nome) => {
+            rl.question('Digite a nova categoria do produto:', (categoria) => {
+                rl.question('Digite a nova quantidade do produto', (quantidade) => {
+                    rl.question('Digite o novo valor do produto', (valor) => {
+                        if valor <= 0 || isNaN(valor)) {
+                            console.log('Valor do produto inválido!');
+                            return AtualizarAQuantidadeDoProduto();
+                        }
+    
+                        estoque[index] = {
+                            nome,
+                            categoria,
+                            quantidade,
+                            valor: parseFloat(valor),
+                        },
+    
+                        console.log('Produto editado com sucesso!');
+                        console.log('\n Pressione Enter para voltar ao menu principal');
+                        rl.question(''menu);
+                    });
+                        });
+                            });
+                                });
+                            }
