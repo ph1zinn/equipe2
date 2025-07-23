@@ -5,16 +5,17 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-let estoques = []; 
+let estoques = [];
 
 function menu() {
     console.log('<<<<<<ESTOQUE>>>>>>');
     console.log('1. Adicionar o produto ao estoque');
     console.log('2. Listar produtos do estoque');
     console.log('3. Atualizar quantidade de produtos no estoque');
-    console.log('4. Revomer produto do estoque');
+    console.log('4. Remover produto do estoque');
     console.log('5. Verificar quantidade baixa de produtos');
-    console.log('6. Sair');
+    console.log('6. Buscar produto por nome');
+    console.log('7. Sair');
     console.log('\n' + '='.repeat(30));
 
     rl.question('Escolha uma opção: ', (opcao) => {
@@ -35,6 +36,9 @@ function menu() {
                 verificarFalta();
                 break;
             case '6':
+                buscarProdutoPorNome();
+                break;
+            case '7':
                 rl.close();
                 console.log('Obrigado por usar o programa de Estoque. Até mais!!');
                 break;
@@ -77,7 +81,7 @@ function adicionarProduto() {
 
 
 function ListarProdutosEmEstoque() {
-    if (estoques.length === 0) { 
+    if (estoques.length === 0) {
         console.log('Nenhum produto registrado no estoque.');
         console.log('\nPressione Enter para retornar ao menu...');
         return rl.question('', menu);
@@ -94,7 +98,7 @@ function ListarProdutosEmEstoque() {
 
 
 function AtualizarAQuantidadeDoProduto() {
-    if (estoques.length === 0) { 
+    if (estoques.length === 0) {
         console.log('Nenhum produto registrado no estoque para atualizar.');
         console.log('\nPressione Enter para retornar ao menu...');
         return rl.question('', menu);
@@ -110,7 +114,11 @@ function AtualizarAQuantidadeDoProduto() {
 
         if (index >= 0 && index < estoques.length) {
             rl.question('Digite a nova quantidade: ', (novaQuantidade) => {
-                estoques[index].quantidade = parseInt(novaQuantidade); 
+                if (novaQuantidade <= 0 || isNaN(novaQuantidade)) {
+                    console.log('Quantidade inválida!!');
+                    return AtualizarAQuantidadeDoProduto();
+                }
+                estoques[index].quantidade = parseInt(novaQuantidade);
                 console.log(`Quantidade de ${estoques[index].nome} atualizada para ${estoques[index].quantidade}.`);
                 console.log('\nPressione Enter para retornar ao menu...');
                 rl.question('', menu);
@@ -176,6 +184,34 @@ function verificarFalta() {
         console.log('\nPressione enter para retornar ao menu');
         return rl.question('', menu);
     }
+}
+
+
+function buscarProdutoPorNome() {
+    if (estoques.length === 0) {
+        console.log('Nenhum produto cadastrado no estoque para buscar.');
+        console.log('\nPressione Enter para retornar ao menu...');
+        return rl.question('', menu);
+    }
+
+    rl.question('Digite o nome (ou parte do nome) do produto que deseja buscar: ', (termoBusca) => {
+        const termoBuscaLower = termoBusca.toLowerCase();
+        const produtosEncontrados = estoques.filter(produto => {
+            return produto.nome.toLowerCase().includes(termoBuscaLower);
+        });
+
+        if (produtosEncontrados.length === 0) {
+            console.log(`Nenhum produto encontrado com "${termoBusca}".`);
+        } else {
+            console.log(`\n=== PRODUTOS ENCONTRADOS PARA "${termoBusca}" ===`);
+            produtosEncontrados.forEach((produto, index) => {
+                console.log(`${index + 1}. Nome: ${produto.nome} | Categoria: ${produto.categoria} | Quantidade: ${produto.quantidade} | Valor: R$ ${produto.valor.toFixed(2)}`);
+            });
+        }
+
+        console.log('\nPressione Enter para retornar ao menu...');
+        rl.question('', menu);
+    });
 }
 
 menu();
