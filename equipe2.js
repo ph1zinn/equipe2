@@ -53,7 +53,7 @@ function adicionarProduto() {
                     console.log('Quantidade inválida!!');
                     return adicionarProduto();
                 }
-                rl.question('Digite o valor do produto: ', (valor) => {
+                rl.question('Digite o valor do produto: R$:', (valor) => {
                     const estoque = {
                         nome,
                         categoria,
