@@ -214,7 +214,7 @@ function ListarProdutosEmEstoque () {
             rl.question('Digite a nova categoria do produto:', (categoria) => {
                 rl.question('Digite a nova quantidade do produto', (quantidade) => {
                     rl.question('Digite o novo valor do produto', (valor) => {
-                        if valor <= 0 || isNaN(valor)) {
+                        if (valor <= 0 || isNaN(valor)) {
                             console.log('Valor do produto inválido!');
                             return AtualizarAQuantidadeDoProduto();
                         }
@@ -228,9 +228,10 @@ function ListarProdutosEmEstoque () {
     
                         console.log('Produto editado com sucesso!');
                         console.log('\n Pressione Enter para voltar ao menu principal');
-                        rl.question(''menu);
+                        rl.question('', menu);
                     });
                         });
                             });
                                 });
-                            }
+                            })
+    }
