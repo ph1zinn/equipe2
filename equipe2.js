@@ -4,8 +4,8 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
- 
-let estoques  = []
+
+let estoques = []; 
 
 function menu() {
     console.log('<<<<<<ESTOQUE>>>>>>');
@@ -39,31 +39,35 @@ function menu() {
                 console.log('Obrigado por usar o programa de Estoque. Até mais!!');
                 break;
             default:
-                console.log('Opção inválida. Tente novamente.')
-                menu()
+                console.log('Opção inválida. Tente novamente.');
+                menu();
         }
-    })
+    });
 }
 
-function adicionarProduto () {
-rl.question('Digite o nome do produto: ', (nome) => {
-    rl.question('Digite categoria do produto, (ex: Elétrodomesticos, calçados, masculino...etc): ', (categoria) => {
-        rl.question('Digite a quantidade de produtos: ', (quantidade) => {
-            rl.question('Digite o valor do produto: ', (valor) => {
-                const estoque = {
-                    nome,
-                    categoria,
-                    quantidade: parseInt(quantidade), 
-                    valor: parseFloat(valor),
-                };
-                estoques.push(estoque);
-                console.log('Seu produto foi adicionado com sucesso!!');
-                console.log('Deseja adicionar outro produto?: (s/n)');
-      
-                rl.question('', (resposta) => {
-                    resposta.toLowerCase() === 's'
-                        ? adicionarProduto()
-                        : menu();
+function adicionarProduto() {
+    rl.question('Digite o nome do produto: ', (nome) => {
+        rl.question('Digite categoria do produto, (ex: Elétrodomesticos, calçados, masculino...etc): ', (categoria) => {
+            rl.question('Digite a quantidade de produtos: ', (quantidade) => {
+                if (quantidade <= 0 || isNaN(quantidade)) {
+                    console.log('Quantidade inválida!!');
+                    return adicionarProduto();
+                }
+                rl.question('Digite o valor do produto: ', (valor) => {
+                    const estoque = {
+                        nome,
+                        categoria,
+                        quantidade: parseInt(quantidade),
+                        valor: parseFloat(valor),
+                    };
+                    estoques.push(estoque);
+                    console.log('Seu produto foi adicionado com sucesso!!');
+                    console.log('Deseja adicionar outro produto?: (s/n)');
+
+                    rl.question('', (resposta) => {
+                        resposta.toLowerCase() === 's'
+                            ? adicionarProduto()
+                            : menu();
                     });
                 });
             });
@@ -71,8 +75,9 @@ rl.question('Digite o nome do produto: ', (nome) => {
     });
 }
 
+
 function ListarProdutosEmEstoque() {
-    if (estoques.length === 0) {
+    if (estoques.length === 0) { 
         console.log('Nenhum produto registrado no estoque.');
         console.log('\nPressione Enter para retornar ao menu...');
         return rl.question('', menu);
@@ -87,8 +92,9 @@ function ListarProdutosEmEstoque() {
     rl.question('', menu);
 }
 
+
 function AtualizarAQuantidadeDoProduto() {
-    if (estoques.length === 0) {
+    if (estoques.length === 0) { 
         console.log('Nenhum produto registrado no estoque para atualizar.');
         console.log('\nPressione Enter para retornar ao menu...');
         return rl.question('', menu);
@@ -104,7 +110,7 @@ function AtualizarAQuantidadeDoProduto() {
 
         if (index >= 0 && index < estoques.length) {
             rl.question('Digite a nova quantidade: ', (novaQuantidade) => {
-                estoques[index].quantidade = parseInt(novaQuantidade);
+                estoques[index].quantidade = parseInt(novaQuantidade); 
                 console.log(`Quantidade de ${estoques[index].nome} atualizada para ${estoques[index].quantidade}.`);
                 console.log('\nPressione Enter para retornar ao menu...');
                 rl.question('', menu);
@@ -119,21 +125,21 @@ function AtualizarAQuantidadeDoProduto() {
 
 
 function removerProdutos() {
-    
-    if (estoques.length === 0) { 
+
+    if (estoques.length === 0) {
         console.log('Nenhum produto registrado');
         console.log('\nPressione enter para retornar ao menu');
         return rl.question('', menu);
     }
 
     console.log('\n===PRODUTOS===');
-    
-    estoques.forEach((produto, index) => { 
+
+    estoques.forEach((produto, index) => {
         console.log(`${index + 1}. Produto: ${produto.nome} | Quantidade: ${produto.quantidade} | Valor: R$ ${produto.valor.toFixed(2)} | Categoria: ${produto.categoria}`);
     });
 
     rl.question('\nDigite o número do produto que deseja apagar: ', (num) => {
-        const index = parseInt(num, 10) - 1; 
+        const index = parseInt(num, 10) - 1;
 
         if (index >= 0 && index < estoques.length) {
             const [removido] = estoques.splice(index, 1);
@@ -152,8 +158,8 @@ function verificarFalta() {
 
     let produtosFalta = [];
 
-    for (let i = 0; i < estoques.length; i++){
-        if (estoques[i].quantidade <= 5) { 
+    for (let i = 0; i < estoques.length; i++) {
+        if (estoques[i].quantidade <= 5) {
             produtosFalta.push(estoques[i]);
         }
     }
@@ -167,71 +173,9 @@ function verificarFalta() {
         produtosFalta.forEach((produto, index) => {
             console.log(`${index + 1}. Produto: ${produto.nome} | Quantidade: ${produto.quantidade} | Valor: R$ ${produto.valor.toFixed(2)} | Categoria: ${produto.categoria}`);
         });
-        console.log('\nPressione enter para retornar ao menu'); 
+        console.log('\nPressione enter para retornar ao menu');
         return rl.question('', menu);
     }
 }
 
-function ListarProdutosEmEstoque () {
-    if (estoque.length === 0) {
-        console.log('Nenhum produto em estoque.')
-    } else {
-        console.log('\n=== LISTA DE PRODUTOS EM ESTOQUE ===');
-        estoque.forEach((estoque, index) => {
-            console.log(
-                `${index + 1}. Nome: ${produto.nome} || Categoria: ${produto.categoria} || Quantidade: ${produto.quantidade} || Valor: R$ ${produto.valor.toFixed(2)}`
-            );        
-        });
-    }
-    
-    console.log('\nPressione Enter para voltar ao menu principal');
-    rl.question('',menu);
-    }
-    
-    function AtualizarAQuantidadeDoProduto() {
-        if (estoque.length === 0) {
-            console.log('Nenhum produto cadastrado no estoque para editar.');
-            console.log('\nPressione Enter para voltar ao menu principal');
-            return rl.question('',menu);
-        }
-    console.log('\n=== PRODUTOS CADASTRADOS ===');
-    estoque.forEach((estoque, index) => {
-        console.log(
-            `${index + 1}. Nome: ${produto.nome} || Categoria: ${produto.categoria} || Quantidade: ${produto.quantidade} || Valor: R$ ${produto.valor.toFixed(2)}`
-        );
-    });
-    
-    rl.question('\nDigite o número do produto a ser editado: ', (num) => {
-        const index = parseInt(num, 10) - 1;
-    
-        if (index < 0 || index >= estoque.length) {
-            console.log('Número/produto inexistente!');
-            console.log('\n Pressione Enter para voltar ao menu principal');
-            return rl.question('',menu);
-        }
-    
-        rl.question('Digite o novo nome do produto:', (nome) => {
-            rl.question('Digite a nova categoria do produto:', (categoria) => {
-                rl.question('Digite a nova quantidade do produto', (quantidade) => {
-                    rl.question('Digite o novo valor do produto', (valor) => {
-                        if (valor <= 0 || isNaN(valor)) {
-                            console.log('Valor do produto inválido!');
-                            return AtualizarAQuantidadeDoProduto();
-                        }
-    
-                        estoque[index] = {
-                            nome,
-                            categoria,
-                            quantidade,
-                            valor: parseFloat(valor),
-                        },
-    
-                        console.log('Produto editado com sucesso!');
-                        console.log('\n Pressione Enter para voltar ao menu principal');
-                        rl.question('', menu);
-                    });
-                        });
-                            });
-                                });
-                            })
-    }
+menu();
