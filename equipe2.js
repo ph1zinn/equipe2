@@ -214,4 +214,40 @@ function buscarProdutoPorNome() {
     });
 }
 
+function filtrarCategoria () {
+    if (estoques.length === 0) {
+
+        console.log('Nenhum produto registrado')
+        console.log('\nPressione enter para retornar ao menu')
+        return rl.question('', menu)
+} 
+
+    rl.question('Por qual categoria voce deseja filtrar?', (filtro) => {
+        let estoqueFiltro = []
+
+        if (filtro.toLowerCase() === produto.categoria.toLowerCase()) {
+           estoqueFiltro.push(produto) 
+        }
+}) 
+    if(estoqueFiltro.length === 0) {
+        console.log('Nenhum produto registrado nessa categoria')
+        console.log('\nDeseja filtrar por outra categoria? (s/n)')
+
+        rl.question('', (filtrarNovamente) => {
+            filtrarNovamente.toLowerCase() === 's'
+                ? filtrarCategoria()
+                : menu()
+            })
+         } else {
+        console.log(`\n===PRODUTOS NA CATEGORIA ${filtro.toUpperCase}===`)
+        estoqueFiltro.forEach((produto, index) => {
+        console.log(`${index + 1}. Produto: ${produto} | Quantidade: ${quantidade} | Preço: ${valor} | Categoria: ${categoria}`)
+        
+        console.log('\nPressione enter para retornar ao menu')
+        return rl.question('', menu)
+                    })
+                     
+                }
+}
+
 menu();
