@@ -222,40 +222,37 @@ function buscarProdutoPorNome() {
     });
 }
 
-function filtrarCategoria () {
+function filtrarCategoria() {
     if (estoques.length === 0) {
+        console.log('Nenhum produto registrado.');
+        console.log('\nPressione Enter para retornar ao menu...');
+        return rl.question('', menu);
+    }
 
-        console.log('Nenhum produto registrado')
-        console.log('\nPressione enter para retornar ao menu')
-        return rl.question('', menu)
-} 
+    rl.question('Por qual categoria você deseja filtrar? ', (filtro) => {
+        const termoFiltroLower = filtro.toLowerCase();
+        let produtosFiltrados = []; 
 
-    rl.question('Por qual categoria voce deseja filtrar?', (filtro) => {
-        let estoqueFiltro = []
-
-        if (filtro.toLowerCase() === produto.categoria.toLowerCase()) {
-           estoqueFiltro.push(produto) 
+        for (let i = 0; i < estoques.length; i++) {
+            const produto = estoques[i]; 
+            if (produto.categoria.toLowerCase().includes(termoFiltroLower)) {
+                produtosFiltrados.push(produto); 
+            }
         }
-}) 
-    if(estoqueFiltro.length === 0) {
-        console.log('Nenhum produto registrado nessa categoria')
-        console.log('\nDeseja filtrar por outra categoria? (s/n)')
 
-        rl.question('', (filtrarNovamente) => {
-            filtrarNovamente.toLowerCase() === 's'
-                ? filtrarCategoria()
-                : menu()
-            })
-         } else {
-        console.log(`\n===PRODUTOS NA CATEGORIA ${filtro.toUpperCase}===`)
-        estoqueFiltro.forEach((produto, index) => {
-        console.log(`${index + 1}. Produto: ${produto} | Quantidade: ${quantidade} | Preço: ${valor} | Categoria: ${categoria}`)
-        
-        console.log('\nPressione enter para retornar ao menu')
-        return rl.question('', menu)
-                    })
-                     
-                }
+        if (produtosFiltrados.length === 0) {
+            console.log(`Nenhum produto encontrado na categoria "${filtro}".`);
+            console.log('\nPressione Enter para retornar ao menu...');
+            rl.question('', menu);
+        } else {
+            console.log(`\n=== PRODUTOS NA CATEGORIA "${filtro.toUpperCase()}" ===`);
+            produtosFiltrados.forEach((produto, index) => {
+                console.log(`${index + 1}. Nome: ${produto.nome} | Quantidade: ${produto.quantidade} | Valor: R$ ${produto.valor.toFixed(2)} | Categoria: ${produto.categoria}`);
+            });
+            console.log('\nPressione Enter para retornar ao menu...');
+            rl.question('', menu);
+        }
+    });
 }
 
 menu();
