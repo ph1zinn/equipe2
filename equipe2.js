@@ -15,7 +15,9 @@ function menu() {
     console.log('4. Remover produto do estoque');
     console.log('5. Verificar quantidade baixa de produtos');
     console.log('6. Buscar produto por nome');
-    console.log('7. Sair');
+    console.log('7. Filtrar produto por categoria');
+    console.log('8. Calcular valor total do estoque');
+    console.log('9. Sair');
     console.log('\n' + '='.repeat(30));
 
     rl.question('Escolha uma opção: ', (opcao) => {
@@ -39,6 +41,12 @@ function menu() {
                 buscarProdutoPorNome();
                 break;
             case '7':
+                filtrarCategoria();
+                break;
+            case '8':
+                valorTotal();
+                break;
+            case '9':
                 rl.close();
                 console.log('Obrigado por usar o programa de Estoque. Até mais!!');
                 break;
