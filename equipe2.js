@@ -239,7 +239,7 @@ function filtrarCategoria () {
                 : menu()
             })
          } else {
-        console.log(`\n===PRODUTOS NA CATEGORIA ${filtro.toUpperCase()}===`)
+        console.log(`\n===PRODUTOS NA CATEGORIA ${filtro.toUpperCase}===`)
         estoqueFiltro.forEach((produto, index) => {
         console.log(`${index + 1}. Produto: ${produto} | Quantidade: ${quantidade} | Preço: ${valor} | Categoria: ${categoria}`)
         
