@@ -262,16 +262,16 @@ function valorTotal() {
         console.log('\nPressione Enter para retornar ao menu...');
         return rl.question('', menu);
     }
-    // Removi o 'else' desnecessário aqui, pois o 'return' já sai da função.
+
 
     console.log('===VALOR TOTAL DO ESTOQUE POR PRODUTO===');
-    let Total = 0; // Variável para o total geral
+    let Total = 0;
 
     estoques.forEach((produto, index) => {
         const totalProduto = produto.valor * produto.quantidade;
         // A CORREÇÃO ESTÁ AQUI: ${totalProduto.toFixed(2)}
         console.log(`${index + 1}. Nome: ${produto.nome} | Valor do estoque: R$ ${totalProduto.toFixed(2)} | Categoria: ${produto.categoria}`);
-        Total += totalProduto; // Adiciona ao total geral
+        Total += totalProduto;
     });
 
     console.log('\n=== VALOR TOTAL GERAL DO ESTOQUE ===');
