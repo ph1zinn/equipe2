@@ -255,4 +255,30 @@ function filtrarCategoria() {
     });
 }
 
+
+function valorTotal() {
+    if (estoques.length === 0) {
+        console.log('Nenhum produto registrado no estoque.');
+        console.log('\nPressione Enter para retornar ao menu...');
+        return rl.question('', menu);
+    }
+    // Removi o 'else' desnecessário aqui, pois o 'return' já sai da função.
+
+    console.log('===VALOR TOTAL DO ESTOQUE POR PRODUTO===');
+    let Total = 0; // Variável para o total geral
+
+    estoques.forEach((produto, index) => {
+        const totalProduto = produto.valor * produto.quantidade;
+        // A CORREÇÃO ESTÁ AQUI: ${totalProduto.toFixed(2)}
+        console.log(`${index + 1}. Nome: ${produto.nome} | Valor do estoque: R$ ${totalProduto.toFixed(2)} | Categoria: ${produto.categoria}`);
+        Total += totalProduto; // Adiciona ao total geral
+    });
+
+    console.log('\n=== VALOR TOTAL GERAL DO ESTOQUE ===');
+    console.log(`Total Geral: R$ ${Total.toFixed(2)}`);
+
+    console.log('\nPressione Enter para retornar ao menu...');
+    rl.question('', menu);
+}
+
 menu();
