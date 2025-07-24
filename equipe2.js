@@ -269,7 +269,6 @@ function valorTotal() {
 
     estoques.forEach((produto, index) => {
         const totalProduto = produto.valor * produto.quantidade;
-        // A CORREÇÃO ESTÁ AQUI: ${totalProduto.toFixed(2)}
         console.log(`${index + 1}. Nome: ${produto.nome} | Valor do estoque: R$ ${totalProduto.toFixed(2)} | Categoria: ${produto.categoria}`);
         Total += totalProduto;
     });
